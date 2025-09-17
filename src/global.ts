@@ -502,10 +502,11 @@ async function makeI18nTextItem(
     const iso = getISO639Code(validFileString);
     if (iso === undefined) {
         // 查看当前文件是否在自定义映射中
-        const inPath = Object.values(customMapping).filter(customPath => customPath === filePath);
+        const normalizedFilePath = path.normalize(filePath);
+        const inPath = Object.values(customMapping).filter(customPath => path.normalize(customPath) === normalizedFilePath);
         console.log(customMapping);
         console.log([filePath]);
-        
+        console.log(inPath);
         if (inPath.length === 0) {
             const warningMessage = t('warn.update-i18n.iso-639-not-found', filename);
             const suggestMessage = t('info.config.custom-language-mapping');
