@@ -4,7 +4,7 @@
     "i18n-haru.root.title": "i18n Copy Folder",
     "i18n-haru.main.title": "Main Language, must be an ISO639 value, missing items in all other languages will be marked, redundant items will be ignored",
     "i18n-haru.display.title": "Inlay Hint Language Rendered in Editor, if left blank defaults to i18n-haru.main",
-    "i18n-haru.format.title": "Type of i18n File to Parse, possible values: json, yaml",
+    "i18n-haru.format.title": "Type of i18n file to parse. Allowed values: json, yaml, js",
     "i18n-haru.goto-undefined-key.title": "Go to Undefined i18n Key",
     "i18n-haru.line-hint-max-length.title": "Maximum Number of Characters for Inline Hint, default is 10",
     "i18n-haru.add-token.title": "Add i18n Token",

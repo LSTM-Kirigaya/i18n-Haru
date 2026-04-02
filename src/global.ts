@@ -3,11 +3,11 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as YAML from 'js-yaml';
 import { ISOCodeArray, t, ValidISOCode } from './i18n';
-import { parseJson, ParseResult, parseYaml } from './parse';
+import { parseJson, parseJsModule, ParseResult, parseYaml } from './parse';
 import { OutgoingMessage } from 'http';
 import { jsonSuggestor } from './lsp/diagnostics';
 
-type IParseMode = 'json' | 'yaml'
+type IParseMode = 'json' | 'yaml' | 'js'
 export const defaultRange = new vscode.Range(
     new vscode.Position(0, 0),
     new vscode.Position(0, 0)
@@ -82,8 +82,7 @@ export async function updateAll() {
     }
     GlobalConfig.display = display;
 
-    // TODO: 支持更多语言的适配
-    GlobalConfig.parseMode = i18nSetting.get<IParseMode>('lang') || 'json';
+    GlobalConfig.parseMode = i18nSetting.get<IParseMode>('format') || 'json';
     const configuration = vscode.workspace.getConfiguration('i18n-haru');
     await updateMapper(GlobalConfig, I18nMapper, configuration);
 }
@@ -296,6 +295,9 @@ async function parseFileByParseMode(
 
         case 'yaml':
             return await parseYaml(filepath);
+
+        case 'js':
+            return await parseJsModule(filepath);
     
         default:
             break;
@@ -329,6 +331,8 @@ function getParseSuffix(config: IGlobalConfig) {
             return ['json'];
         case 'yaml':
             return ['yaml', 'yml'];
+        case 'js':
+            return ['js', 'mjs', 'ts', 'mts'];
         default:
             break;
     }
@@ -375,7 +379,7 @@ export async function updateMapper(
 
     const parseSuffixs = getParseSuffix(config);
 
-    // 得到所有的 i18n 配置文件，必须是 i18n-haru.lang 中设置的后缀，默认为 json
+    // 得到所有的 i18n 配置文件，必须是 i18n-haru.format 中设置的后缀，默认为 json
     const i18nFiles: string[] = [];
     for (const file of fs.readdirSync(root)) {
         let extname = file.split('.').at(-1);

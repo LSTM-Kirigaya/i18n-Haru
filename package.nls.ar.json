@@ -4,7 +4,7 @@
     "i18n-haru.root.title": "مجلد نص i18n",
     "i18n-haru.main.title": "اللغة الرئيسية، يجب أن تكون قيمة ISO639، العناصر المفقودة في جميع اللغات الأخرى سيتم وضع علامة عليها، وسيتم تجاهل العناصر الزائدة",
     "i18n-haru.display.title": "لغة inlay hint المعروضة في المحرر، إذا تركت فارغة تكون افتراضيًا i18n-haru.main",
-    "i18n-haru.format.title": "نوع ملف i18n للتحليل، القيم الممكنة: json, yaml",
+    "i18n-haru.format.title": "نوع ملف i18n للتحليل. القيم المسموحة: json، yaml، js",
     "i18n-haru.goto-undefined-key.title": "انتقل إلى مفتاح i18n غير معرف",
     "i18n-haru.line-hint-max-length.title": "الحد الأقصى لعدد الأحرف للتلميح الداخلي، الافتراضي هو 10",
     "i18n-haru.add-token.title": "إضافة رمز i18n",
