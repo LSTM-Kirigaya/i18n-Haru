@@ -3,6 +3,7 @@ import { getDisplayI18nItem, GlobalConfig, I18nMapper, I18nTextItem, lspLangSele
 import { makeI18nKeyProfile } from './completion';
 import { isValidT } from '../util';
 import { t } from '../i18n';
+import { parseTI18nCallsInLine } from './tCallParse';
 
 class I18nProvider implements vscode.InlayHintsProvider {
     public provideInlayHints(document: vscode.TextDocument, range: vscode.Range, token: vscode.CancellationToken): vscode.ProviderResult<vscode.InlayHint[]> {
@@ -34,7 +35,6 @@ class I18nProvider implements vscode.InlayHintsProvider {
             }
             const hints = makeLineTextHint(document, line, lineText, i18nItem, maxHintLength);
             if (hints.length > 0) {
-                console.log(hints);
                 inlayHints.push(...hints);                    
             }
         }
@@ -54,32 +54,15 @@ function findMatchingStrings(
     line: number,
     lineText: string
 ): MatchResult[] {
-
-    const regex = /\bt\(["'][^"']*["'].*\)/g;
     const matches: MatchResult[] = [];
-    let match;
-    
-    while ((match = regex.exec(lineText)) !== null) {           
-        const matchString = match[0];
-        const start = new vscode.Position(line, match.index);
-        const range = new vscode.Range(start, start);
-                
-        if (!isValidT(range, document)) {            
+    for (const span of parseTI18nCallsInLine(lineText)) {
+        const tPos = new vscode.Position(line, span.tCharOffset);
+        const range = new vscode.Range(tPos, tPos);
+        if (!isValidT(range, document)) {
             continue;
         }
-        
-        let lastQIndex = matchString.lastIndexOf('"');
-        if (lastQIndex === -1) {
-            lastQIndex = matchString.lastIndexOf('\'');
-        }
-
-        const i18nStringMatch = /\bt\(["']([^"']*)["'].*\)/.exec(matchString);        
-        if (i18nStringMatch && i18nStringMatch[1] !== undefined && lastQIndex !== -1) {
-            const column = match.index + lastQIndex + 1;            
-            matches.push({ match: i18nStringMatch[1], column });
-        }
+        matches.push({ match: span.key, column: span.keyQuoteClose + 1 });
     }
-
     return matches;
 }
 
