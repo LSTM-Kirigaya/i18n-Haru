@@ -4,7 +4,7 @@
     "i18n-haru.root.title": "Dossier de texte i18n",
     "i18n-haru.main.title": "Langue principale, doit être une valeur ISO639, les éléments manquants dans toutes les autres langues seront marqués, les éléments redondants seront ignorés",
     "i18n-haru.display.title": "Langue de l'indice intégré rendu dans l'éditeur, si laissé vide par défaut à i18n-haru.main",
-    "i18n-haru.format.title": "Type de fichier i18n à analyser, valeurs possibles : json, yaml",
+    "i18n-haru.format.title": "Type de fichier i18n à analyser. Valeurs possibles : json, yaml, js",
     "i18n-haru.goto-undefined-key.title": "Aller à la clé i18n non définie",
     "i18n-haru.line-hint-max-length.title": "Nombre maximum de caractères pour l'indice en ligne, par défaut 10",
     "i18n-haru.add-token.title": "Ajouter un jeton i18n",

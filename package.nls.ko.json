@@ -4,7 +4,7 @@
     "i18n-haru.root.title": "i18n 텍스트 폴더",
     "i18n-haru.main.title": "기본 언어, ISO639 값이어야 함, 다른 모든 언어의 누락된 항목은 표시되고, 중복된 항목은 무시됨",
     "i18n-haru.display.title": "에디터에서 렌더링되는 inlay hint 언어, 비워두면 기본적으로 i18n-haru.main",
-    "i18n-haru.format.title": "파싱할 i18n 파일 형식, 선택 가능한 값: json, yaml",
+    "i18n-haru.format.title": "파싱할 i18n 파일 형식. 선택 가능한 값: json, yaml, js",
     "i18n-haru.goto-undefined-key.title": "정의되지 않은 i18n 키로 이동",
     "i18n-haru.line-hint-max-length.title": "줄 내 힌트 최대 문자 수, 기본값은 10",
     "i18n-haru.add-token.title": "i18n 토큰 추가",

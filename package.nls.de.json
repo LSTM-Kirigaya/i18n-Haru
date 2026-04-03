@@ -4,7 +4,7 @@
     "i18n-haru.root.title": "i18n-Textordner",
     "i18n-haru.main.title": "Hauptsprache, muss ein ISO639-Wert sein, fehlende Elemente in allen anderen Sprachen werden markiert, redundante Elemente werden ignoriert",
     "i18n-haru.display.title": "Inlay-Hinweissprache, die im Editor gerendert wird, wenn leer, standardmäßig i18n-haru.main",
-    "i18n-haru.format.title": "Typ der zu analysierenden i18n-Datei, mögliche Werte: json, yaml",
+    "i18n-haru.format.title": "Typ der zu parsenden i18n-Datei. Zulässige Werte: json, yaml, js",
     "i18n-haru.goto-undefined-key.title": "Gehe zu nicht definiertem i18n-Schlüssel",
     "i18n-haru.line-hint-max-length.title": "Maximale Anzahl von Zeichen für Inline-Hinweis, Standard ist 10",
     "i18n-haru.add-token.title": "i18n-Token hinzufügen",

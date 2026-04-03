@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import * as path from 'path';
 import { defaultRange, getDefaultI18nItem, GlobalConfig, I18nMapper } from '../global';
 import { t } from '../i18n';
 
@@ -14,7 +15,17 @@ class I18nJsonDiagnostic {
     }
 
     async lint(filepath: string) {
-        if (!filepath.endsWith('.json') || !filepath.startsWith(GlobalConfig.root)) {
+        if (!filepath.startsWith(GlobalConfig.root)) {
+            return;
+        }
+        const ext = path.extname(filepath).toLowerCase();
+        if (GlobalConfig.parseMode === 'json' && ext !== '.json') {
+            return;
+        }
+        if (GlobalConfig.parseMode === 'yaml' && ext !== '.yaml' && ext !== '.yml') {
+            return;
+        }
+        if (GlobalConfig.parseMode === 'js' && ext !== '.js' && ext !== '.mjs' && ext !== '.ts' && ext !== '.mts') {
             return;
         }
         const items = [];

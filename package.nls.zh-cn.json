@@ -4,7 +4,7 @@
     "i18n-haru.root.title": "i18n 文案文件夹",
     "i18n-haru.main.title": "主语言，必须是 ISO639 的值，其他所有语言缺失的项会被标记，多余的项会被忽略",
     "i18n-haru.display.title": "inlay hint 在编辑器中渲染出的语言，不填默认就是 i18n-haru.main",
-    "i18n-haru.format.title": "解析的 i18n 文件的类型，可选值：json, yaml",
+    "i18n-haru.format.title": "解析的 i18n 文件的类型，可选值：json, yaml，js",
     "i18n-haru.goto-undefined-key.title": "前往为定义的 i18n 键值",
     "i18n-haru.line-hint-max-length.title": "行内提示最大字符数量，默认为 10",
     "i18n-haru.add-token.title": "新增 i18n token",

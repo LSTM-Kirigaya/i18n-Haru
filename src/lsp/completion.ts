@@ -2,48 +2,50 @@ import * as vscode from 'vscode';
 import { defaultRange, getDefaultI18nItem, GlobalConfig, I18nMapper, lspLangSelectors } from '../global';
 import { isValidT, parseMessageParameters } from '../util';
 import { t } from '../i18n';
+import { findTI18nCallAtColumn } from './tCallParse';
 
 class I18nProvider implements vscode.CompletionItemProvider {
     public provideCompletionItems(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken, context: vscode.CompletionContext): vscode.ProviderResult<vscode.CompletionItem[] | vscode.CompletionList<vscode.CompletionItem>> {
-        const range = document.getWordRangeAtPosition(position, /t\(["'][^"']*["'].*\)/);
-        if (range === undefined || !isValidT(range, document)) {
+        const lineText = document.lineAt(position.line).text;
+        const span = findTI18nCallAtColumn(lineText, position.character);
+        if (!span) {
+            return [];
+        }
+        const tPos = new vscode.Position(position.line, span.tCharOffset);
+        const tRange = new vscode.Range(tPos, tPos);
+        if (!isValidT(tRange, document)) {
             return [];
         }
 
         const items: vscode.CompletionItem[] = [];
-        const targetExpression = document.getText(range);
-        const match = /t\(["']([^"']*)["'](.*)\)/.exec(targetExpression);
+        const targetI18nKey = span.key;
+        const i18nItem = getDefaultI18nItem(GlobalConfig, I18nMapper);
+        if (!i18nItem) {
+            return items;
+        }
 
-        if (match && match[1] !== undefined) {
-            const targetI18nKey = match[1];
-            const i18nItem = getDefaultI18nItem(GlobalConfig, I18nMapper);
-            if (!i18nItem) {
-                return items;
+        const insertRange = new vscode.Range(
+            new vscode.Position(position.line, span.keyQuoteOpen + 1),
+            new vscode.Position(position.line, span.keyQuoteClose)
+        );
+
+        for (const i18nKey of Object.keys(i18nItem.content)) {
+            if (!i18nKey.startsWith(targetI18nKey)) {
+                continue;
             }
-                        
-            const insertRange = new vscode.Range(
-                new vscode.Position(range.start.line, range.start.character + 3),
-                new vscode.Position(range.end.line, range.end.character - 2 - match[2].length)
-            );
 
-            for (const i18nKey of Object.keys(i18nItem.content)) {
-                if (!i18nKey.startsWith(targetI18nKey)) {
-                    continue;
-                }
+            const targetContent = i18nItem.content[i18nKey];
+            const profile = makeI18nKeyProfile(i18nKey, targetContent);
+            const markdown = new vscode.MarkdownString(profile, true);
 
-                const targetContent = i18nItem.content[i18nKey];
-                const profile = makeI18nKeyProfile(i18nKey, targetContent);
-                const markdown = new vscode.MarkdownString(profile, true);
-
-                const completionItem: vscode.CompletionItem = {
-                    label: i18nKey,
-                    kind: vscode.CompletionItemKind.Value,
-                    detail: t('info.lsp.detail.key'),
-                    documentation: markdown,
-                    range: insertRange
-                };
-                items.push(completionItem);
-            }
+            const completionItem: vscode.CompletionItem = {
+                label: i18nKey,
+                kind: vscode.CompletionItemKind.Value,
+                detail: t('info.lsp.detail.key'),
+                documentation: markdown,
+                range: insertRange
+            };
+            items.push(completionItem);
         }
 
         return items;

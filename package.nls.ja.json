@@ -4,7 +4,7 @@
     "i18n-haru.root.title": "i18n 文案フォルダ",
     "i18n-haru.main.title": "メイン言語、ISO639 の値である必要があります、他のすべての言語の欠落項目はマークされ、余分な項目は無視されます",
     "i18n-haru.display.title": "エディターにレンダリングされる inlay hint 言語、空白の場合はデフォルトで i18n-haru.main",
-    "i18n-haru.format.title": "解析する i18n ファイルのタイプ、選択可能な値：json, yaml",
+    "i18n-haru.format.title": "解析する i18n ファイルの種類。選択可能な値：json, yaml, js",
     "i18n-haru.goto-undefined-key.title": "未定義の i18n キーに移動",
     "i18n-haru.line-hint-max-length.title": "行内ヒントの最大文字数、デフォルトは 10",
     "i18n-haru.add-token.title": "i18n トークンを追加",
